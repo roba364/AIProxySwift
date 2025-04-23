@@ -157,6 +157,14 @@ open class OpenAIRealtimeSession {
             if let text = json["text"] as? String {
                 self.continuation?.yield(.responseTextDone(text))
             }
+        case "conversation.item.input_audio_transcription.delta":
+            if let text = json["delta"] as? String {
+                self.continuation?.yield(.conversationItemInputAudioTranscriptionDelta(text))
+            }
+        case "conversation.item.input_audio_transcription.completed":
+            if let text = json["transcript"] as? String {
+                self.continuation?.yield(.conversationItemInputAudioTranscriptionCompleted(text))
+            }
         default:
             logIf(.warning)?.warning("Unhandled message type: \(messageType)")
         }
