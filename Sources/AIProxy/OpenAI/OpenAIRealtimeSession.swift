@@ -141,8 +141,16 @@ open class OpenAIRealtimeSession {
             self.continuation?.yield(.responseCreated)
         case "input_audio_buffer.speech_started":
             self.continuation?.yield(.inputAudioBufferSpeechStarted)
+        case "response.text.delta":
+            if let textDelta = json["delta"] as? String {
+                self.continuation?.yield(.responseTextDelta(textDelta))
+            }
+        case "response.text.done":
+            if let text = json["text"] as? String {
+                self.continuation?.yield(.responseTextDone(text))
+            }
         default:
-            break
+            logIf(.warning)?.warning("Unhandled message type: \(messageType)")
         }
 
         if messageType != "error" && !self.isTearingDown {
