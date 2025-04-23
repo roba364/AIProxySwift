@@ -2,7 +2,7 @@
 //  RealtimeSession.swift
 //
 //
-//  Created by Lou Zell on 11/28/24.
+//  Created by Sergei Borovkov on 11/28/24.
 //
 
 import Foundation

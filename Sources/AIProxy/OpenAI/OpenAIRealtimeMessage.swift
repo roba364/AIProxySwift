@@ -2,7 +2,7 @@
 //  OpenAIRealtimeMessage.swift
 //  AIProxy
 //
-//  Created by Lou Zell on 12/29/24.
+//  Created by Sergei Borovkov on 12/29/24.
 //
 
 public enum OpenAIRealtimeMessage {
