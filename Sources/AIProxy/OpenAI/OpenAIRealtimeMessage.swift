@@ -12,6 +12,6 @@ public enum OpenAIRealtimeMessage {
     case responseCreated // "response.created"
     case responseAudioDelta(String) // "response.audio.delta"
     case inputAudioBufferSpeechStarted // "input_audio_buffer.speech_started"
-    case responseTextDelta(String) // "response.text.delta"
-    case responseTextDone(String) // "response.text.done"
+    case responseAudioTranscriptDelta(String) // "response.audio_transcript.delta"
+    case responseAudioTranscriptDone(String) // "response.audio_transcript.done"
 }
