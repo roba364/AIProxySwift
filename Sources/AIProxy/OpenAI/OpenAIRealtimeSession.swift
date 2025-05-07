@@ -124,6 +124,8 @@ open class OpenAIRealtimeSession {
         }
         logIf(.debug)?.debug("Received \(messageType) from OpenAI")
 
+        print("---> messageType: \(messageType)")
+
         switch messageType {
         case "error":
             let errorBody = String(describing: json["error"] as? [String: Any])
