@@ -85,7 +85,11 @@ open class AudioPCMPlayer {
         self.audioEngine.stop()
     }
 
-    public func playPCM16Audio(from base64String: String) {
+    public func playPCM16Audio(
+        from base64String: String,
+        callbackType: AVAudioPlayerNodeCompletionCallbackType,
+        completion: @escaping (AVAudioPlayerNodeCompletionCallbackType) -> Void
+    ) {
         guard let audioData = Data(base64Encoded: base64String) else {
             logIf(.error)?.error("Could not decode base64 string for audio playback")
             return
@@ -145,10 +149,13 @@ open class AudioPCMPlayer {
         }
         #endif
 
-        self.playerNode.scheduleBuffer(outPCMBuf, at: nil, options: [], completionCallbackType: .dataPlayedBack) { object in
-            print("---> \(object)")
-            print("---> finished?")
-        }
+        self.playerNode.scheduleBuffer(
+            outPCMBuf,
+            at: nil,
+            options: [],
+            completionCallbackType: callbackType,
+            completionHandler: completion
+        )
         self.playerNode.play()
     }
 
