@@ -143,6 +143,8 @@ open class OpenAIRealtimeSession {
             self.continuation?.yield(.responseCreated)
         case "input_audio_buffer.speech_started":
             self.continuation?.yield(.inputAudioBufferSpeechStarted)
+        case "input_audio_buffer.speech_stopped":
+            self.continuation?.yield(.inputAudioBufferSpeechStopped)
         case "response.audio_transcript.delta":
             if let textDelta = json["delta"] as? String {
                 self.continuation?.yield(.responseAudioTranscriptDelta(textDelta))

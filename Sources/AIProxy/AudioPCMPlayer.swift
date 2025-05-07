@@ -145,7 +145,8 @@ open class AudioPCMPlayer {
         }
         #endif
 
-        self.playerNode.scheduleBuffer(outPCMBuf, at: nil, options: []) {
+        self.playerNode.scheduleBuffer(outPCMBuf, at: nil, options: [], completionCallbackType: .dataPlayedBack) { object in
+            print("---> \(object)")
             print("---> finished?")
         }
         self.playerNode.play()
