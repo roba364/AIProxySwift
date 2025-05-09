@@ -152,12 +152,7 @@ open class AudioPCMPlayer {
         self.playerNode.scheduleBuffer(
             outPCMBuf,
             at: nil,
-            options: [],
-            completionCallbackType: callbackType,
-            completionHandler: { [weak self] _ in
-                guard let self else { return }
-                completion(self.playerNode.isPlaying)
-            }
+            options: []
         )
         self.playerNode.play()
     }
