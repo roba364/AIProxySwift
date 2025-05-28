@@ -30,6 +30,7 @@ open class AudioPCMPlayer {
     private let audioEngine: AVAudioEngine
     private let playerNode: AVAudioPlayerNode
     private let adjustGainOniOS = true
+    private var audioBufferQueue: [AVAudioPCMBuffer] = []
 
     public init() throws {
         guard let _inputFormat = AVAudioFormat(
@@ -83,12 +84,11 @@ open class AudioPCMPlayer {
     deinit {
         logIf(.debug)?.debug("AudioPCMPlayer is being freed")
         self.audioEngine.stop()
+        self.playerNode.stop()
     }
 
     public func playPCM16Audio(
-        from base64String: String,
-        callbackType: AVAudioPlayerNodeCompletionCallbackType,
-        completion: @escaping (Bool) -> Void
+        from base64String: String
     ) {
         guard let audioData = Data(base64Encoded: base64String) else {
             logIf(.error)?.error("Could not decode base64 string for audio playback")
@@ -121,6 +121,8 @@ open class AudioPCMPlayer {
             logIf(.error)?.error("Could not create output buffer for audio playback")
             return
         }
+
+        audioBufferQueue.append(outPCMBuf)
 
         guard let converter = AVAudioConverter(from: self.inputFormat, to: self.playableFormat) else {
             logIf(.error)?.error("Could not create audio converter needed to map from pcm16int to pcm32float")
@@ -160,6 +162,11 @@ open class AudioPCMPlayer {
     public func interruptPlayback() {
         logIf(.debug)?.debug("Interrupting playback")
         self.playerNode.stop()
+        self.playerNode.reset()
+        self.audioBufferQueue.removeAll()
+        if audioEngine.isRunning {
+            audioEngine.pause()
+        }
     }
 }
 
